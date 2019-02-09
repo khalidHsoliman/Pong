@@ -75,7 +75,7 @@ public class BallBehaviour : MonoBehaviour {
         gameObject.transform.position = new Vector2(0, 0);
 
         yield return new WaitForSeconds(0.5f);
-        speed = 30.0f;
+        speed = 40.0f;
         rigidbody2d.velocity = Vector2.right * speed;
     }
 }

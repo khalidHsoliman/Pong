@@ -10,6 +10,8 @@ TagManager:
   - BottomWall
   - RightGoal
   - LeftGoal
+  - Lightning
+  - Magnet
   layers:
   - Default
   - TransparentFX
