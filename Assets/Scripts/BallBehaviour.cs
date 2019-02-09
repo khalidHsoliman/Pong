@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class BallBehaviour : MonoBehaviour {
 
@@ -26,11 +27,10 @@ public class BallBehaviour : MonoBehaviour {
         {
             SoundManager.SM.PlayOneShot(SoundManager.SM.goalBloop);
 
-            // freeze and count score 
+            GameManager.gm.IncreaseScore(collision.gameObject);
+            speed = 0.0f;
 
-            gameObject.transform.position = new Vector2(0, 0);
-            rigidbody2d.velocity = Vector2.right * speed;
-
+            StartCoroutine("Wait");
         }
 
         else if (collision.gameObject.CompareTag("UpperWall") || collision.gameObject.CompareTag("BottomWall"))
@@ -59,5 +59,18 @@ public class BallBehaviour : MonoBehaviour {
             dir = new Vector2(1, ratio).normalized;
 
         rigidbody2d.velocity = dir * speed; 
+    }
+
+    IEnumerator Wait()
+    {
+        speed = 0.0f;
+        rigidbody2d.velocity = Vector2.zero; 
+
+        yield return new WaitForSeconds(0.5f);
+        gameObject.transform.position = new Vector2(0, 0);
+
+        yield return new WaitForSeconds(0.5f);
+        speed = 30.0f;
+        rigidbody2d.velocity = Vector2.right * speed;
     }
 }
