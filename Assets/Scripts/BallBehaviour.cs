@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class BallBehaviour : MonoBehaviour {
 
-    public float speed = 30.0f;
+    public float speed = 40.0f;
+
+    private float oldSpeed = 0.0f; 
 
     private Rigidbody2D rigidbody2d;
 
@@ -18,6 +20,7 @@ public class BallBehaviour : MonoBehaviour {
         if (GameManager.gm.gameIsOver)
             rigidbody2d.velocity = Vector2.zero;
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
@@ -33,7 +36,6 @@ public class BallBehaviour : MonoBehaviour {
             SoundManager.SM.PlayOneShot(SoundManager.SM.goalBloop);
 
             GameManager.gm.IncreaseScore(collision.gameObject);
-            speed = 0.0f;
 
             StartCoroutine("Wait");
         }
@@ -66,8 +68,20 @@ public class BallBehaviour : MonoBehaviour {
         rigidbody2d.velocity = dir * speed; 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Lightning"))
+            GameManager.gm.Speedup();
+
+        else if (collision.CompareTag("Magnet"))
+            GameManager.gm.ChangeDir();
+
+        Destroy(collision.gameObject); 
+    }
+
     IEnumerator Wait()
     {
+        oldSpeed = speed; 
         speed = 0.0f;
         rigidbody2d.velocity = Vector2.zero; 
 
@@ -75,7 +89,7 @@ public class BallBehaviour : MonoBehaviour {
         gameObject.transform.position = new Vector2(0, 0);
 
         yield return new WaitForSeconds(0.5f);
-        speed = 40.0f;
+        speed = oldSpeed;
         rigidbody2d.velocity = Vector2.right * speed;
     }
 }

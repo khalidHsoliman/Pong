@@ -46,7 +46,7 @@ public class RandomGenerator : MonoBehaviour {
         while(pickup.GetComponent<SpriteRenderer>().color.a > 0)
         {
             pickup.GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, 1);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         Destroy(pickup);

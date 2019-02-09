@@ -561,6 +561,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 416398529}
+--- !u!1 &434228028 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1392752360826058, guid: bb8de9fe37704cd4a88555c5b9fe94f2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1583203964}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +887,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 50}
   m_EdgeRadius: 0
+--- !u!1 &1076350134 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1330879704344590, guid: b058971c840e55449aaac8a99e6dea1d,
+    type: 2}
+  m_PrefabInternal: {fileID: 353134771}
 --- !u!114 &1076350139 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114207761398640052, guid: b058971c840e55449aaac8a99e6dea1d,
@@ -1531,7 +1541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickups:
   - {fileID: 1660320618602322, guid: bd5ae5a46e9fbfb458fb5f6631da23b8, type: 2}
-  - {fileID: 1620624361146924, guid: 894ab3faa0ea3974192e911e6a97361c, type: 2}
+  - {fileID: 1660320618602322, guid: bd5ae5a46e9fbfb458fb5f6631da23b8, type: 2}
   minX: -20
   maxX: 20
   minY: -10
@@ -1687,6 +1697,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35aed0d1c56f3d0438dd617205472850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ball: {fileID: 1076350134}
+  Player: {fileID: 434228028}
+  AI: {fileID: 1431492692}
+  Borders:
+  - {fileID: 1677351049}
+  - {fileID: 1250063277}
+  - {fileID: 986629668}
+  - {fileID: 1779143344}
   GameOver: {fileID: 416398531}
   PlayerScore: {fileID: 806525557}
   AIScore: {fileID: 1672193816}

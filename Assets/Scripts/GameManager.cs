@@ -7,6 +7,11 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager gm = null;
 
+    public GameObject Ball;
+    public GameObject Player;
+    public GameObject AI;
+    public GameObject[] Borders; 
+
     // UI Elements
     public Text GameOver; 
     public Text PlayerScore;
@@ -18,22 +23,42 @@ public class GameManager : MonoBehaviour {
 
     public bool gameIsOver = false;
 
+    private AudioSource audioSource; 
+
     private int playerScore = 0;
     private int aiScore = 0;
-    
+
+    private bool toggleColor = false;
+
+    private float timeToToggle = 5.0f;
+    private float timeTillShut = 0.0f; 
 
     private void Start()
     {
+
         if (gm == null)
             gm = this;
         else
-            Destroy(gameObject); 
+            Destroy(gameObject);
 
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
+        if (toggleColor)
+        {
+            timeTillShut += Time.deltaTime;
+
+            if (timeTillShut >= timeToToggle)
+            {
+                toggleColor = false;
+                timeTillShut = 0.0f;
+
+                ResetObj();
+            }
+        }
+
         if(gameIsOver)
         {
             if (int.Parse(PlayerScore.text) > int.Parse(AIScore.text))
@@ -67,7 +92,41 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
 
-    
+    public void Speedup()
+    {
+        toggleColor = true;
+
+        Ball.GetComponent<BallBehaviour>().speed += 20;
+        Ball.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0); 
+        Ball.GetComponent<TrailRenderer>().startColor = new Color(1, 0, 0);
+        
+        Player.GetComponent<PlayerController>().speed += 20;
+        AI.GetComponent<AIPlayer>().speed += 20;
+
+        audioSource.pitch += 0.2f;
+        
+        StartCoroutine("Speedy"); 
+    }
+
+    public void ChangeDir()
+    {
+
+    }
+
+
+    private void ResetObj()
+    {
+        Ball.GetComponent<BallBehaviour>().speed -= 20;
+        Ball.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+        Ball.GetComponent<TrailRenderer>().startColor = new Color(1, 1, 1);
+
+        Player.GetComponent<PlayerController>().speed -= 20;
+        AI.GetComponent<AIPlayer>().speed -= 20;
+
+        audioSource.pitch -= 0.2f;
+    }
+
+
     IEnumerator Win()
     {
         yield return new WaitForSeconds(0.5f);
@@ -98,5 +157,27 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
         }
 
+    }
+
+    IEnumerator Speedy()
+    {
+        while (toggleColor)
+        {
+
+            foreach (GameObject border in Borders)
+            {
+                border.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+            }
+
+            yield return new WaitForSeconds(0.25f);
+
+            foreach (GameObject border in Borders)
+            {
+                border.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+            }
+
+            yield return new WaitForSeconds(0.25f);
+
+        }
     }
 }
