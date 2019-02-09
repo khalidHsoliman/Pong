@@ -16,10 +16,11 @@ public class GameManager : MonoBehaviour {
     public GameObject Panel;
     //
 
+    public bool gameIsOver = false;
+
     private int playerScore = 0;
     private int aiScore = 0;
     
-    private bool gameIsOver = false; 
 
     private void Start()
     {
@@ -57,51 +58,45 @@ public class GameManager : MonoBehaviour {
             AIScore.text = aiScore.ToString();
         }
 
-        if (playerScore == 11 || aiScore == 11)
+        if (playerScore == 5 || aiScore == 5)
             gameIsOver = true; 
     }
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().ToString()); 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
 
     
     IEnumerator Win()
     {
-        Time.timeScale = 0.1f; 
-        yield return new WaitForSeconds(1.0f);
-        Time.timeScale = 0.0f;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         GameOver.text = "YOU WON!";
         Panel.SetActive(true);
+        RestartButton.interactable = true;
 
-        while(Panel.GetComponent<Image>().color.a < 255)
+        while (Panel.GetComponent<Image>().color.a < 254)
         {
-            Panel.GetComponent<Image>().color += new Color32(0, 0, 0, 1);
-            yield return new WaitForSeconds(0.05f);
+            Panel.GetComponent<Image>().color += new Color32(0, 0, 0, 10);
+            yield return new WaitForSeconds(0.5f);
         }
 
-        RestartButton.interactable = true; 
     }
 
     IEnumerator Lose()
     {
-        Time.timeScale = 0.1f;
-        yield return new WaitForSeconds(1.0f);
-        Time.timeScale = 0.0f;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         GameOver.text = "YOU LOST!";
         Panel.SetActive(true);
+        RestartButton.interactable = true;
 
-        while (Panel.GetComponent<Image>().color.a < 255)
+        while (Panel.GetComponent<Image>().color.a < 254)
         {
-            Panel.GetComponent<Image>().color += new Color32(0, 0, 0, 1);
-            yield return new WaitForSeconds(0.05f);
+            Panel.GetComponent<Image>().color += new Color32(0, 0, 0, 10);
+            yield return new WaitForSeconds(0.5f);
         }
 
-        RestartButton.interactable = true;
     }
 }

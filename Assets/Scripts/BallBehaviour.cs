@@ -13,6 +13,11 @@ public class BallBehaviour : MonoBehaviour {
         rigidbody2d.velocity = Vector2.right * speed; 
     }
 
+    private void Update()
+    {
+        if (GameManager.gm.gameIsOver)
+            rigidbody2d.velocity = Vector2.zero;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
