@@ -140,9 +140,6 @@ public class GameManager : MonoBehaviour {
         Ball.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
         Ball.GetComponent<TrailRenderer>().startColor = new Color(1, 1, 1);
 
-        Player.GetComponent<PlayerController>().speed -= 20;
-        AI.GetComponent<AIPlayer>().speed -= 20;
-
         audioSource.pitch -= 0.2f;
     }
 
