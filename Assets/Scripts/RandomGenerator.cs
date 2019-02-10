@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This class is generating pickups with random positions, random time intervals, random pickup prefab
+/// </summary>
 public class RandomGenerator : MonoBehaviour {
 
     // pickups 
     public GameObject[] pickups;
 
-    //range to respawn
+    // position range to respawn
     public float minX = -20.0f;
     public float maxX =  20.0f;
     public float minY = -10.0f;
@@ -19,6 +23,7 @@ public class RandomGenerator : MonoBehaviour {
     [Range(0, 10)]
     public float MaxSpawnInterval = 10.0f;
 
+    // timer
     private float timeToRespawn = 0.0f;
     private float SpawnInterval = 0.0f; 
 
@@ -31,6 +36,7 @@ public class RandomGenerator : MonoBehaviour {
         {
             timeToRespawn = 0.0f;
 
+            // instantiating the pickup 
             GameObject pickup = Instantiate(pickups[Random.Range(0, pickups.Length)],
                 new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0.0f),
                 Quaternion.identity) as GameObject;
@@ -41,6 +47,12 @@ public class RandomGenerator : MonoBehaviour {
        // Debug.Log(SpawnInterval);
 	}
 
+
+    /// <summary>
+    /// This coroutine is destroying the pickup and make a fading effect 
+    /// </summary>
+    /// <param name="pickup"></param>
+    /// <returns></returns>
     IEnumerator DestroyObject(GameObject pickup)
     {
         while(pickup.GetComponent<SpriteRenderer>().color.a > 0)

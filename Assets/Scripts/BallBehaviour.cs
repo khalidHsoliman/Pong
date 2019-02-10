@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// This class handles all the collisions of the ball
+/// </summary>
 public class BallBehaviour : MonoBehaviour {
 
     public float speed = 40.0f;
@@ -11,6 +14,7 @@ public class BallBehaviour : MonoBehaviour {
 
     private void Start()
     {
+        // initially pushing the ball to the right
         rigidbody2d = GetComponent<Rigidbody2D>();
         rigidbody2d.velocity = Vector2.right * speed; 
     }
@@ -19,11 +23,18 @@ public class BallBehaviour : MonoBehaviour {
     {
         if (GameManager.gm)
         {
+            // stops the ball if gameIsover
             if (GameManager.gm.gameIsOver)
                 rigidbody2d.velocity = Vector2.zero;
         }
     }
 
+
+    /// <summary>
+    /// Checks the collisions with playre, Ai, upper and lower wall, right and left goals
+    /// using tags instead of names is more consistent and best practice 
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("AI"))
@@ -49,6 +60,10 @@ public class BallBehaviour : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// a fuction to handle the ball reaction when colliding with the player or ai paddle
+    /// </summary>
+    /// <param name="collision"></param>
     private void PaddleCollide(Collision2D collision)
     {
         // ratio is a variable that controls the dir where the ball will bounce to
@@ -71,6 +86,11 @@ public class BallBehaviour : MonoBehaviour {
         rigidbody2d.velocity = dir * speed; 
     }
 
+
+    /// <summary>
+    /// Checks when the ball triggers pickups' colliders 
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Lightning"))
@@ -79,11 +99,17 @@ public class BallBehaviour : MonoBehaviour {
         else if (collision.CompareTag("Magnet"))
             GameManager.gm.ChangeDir();
 
+        // hide the pickups after collecting them
         collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         collision.gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
     }
 
+
+    /// <summary>
+    /// This coroutine make the game stops for a little time when scoring a goal
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Wait()
     {
         oldSpeed = speed; 

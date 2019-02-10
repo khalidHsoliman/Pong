@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class controls player movement and behaviour 
+/// </summary>
 public class PlayerController : MonoBehaviour {
 
-    public float speed = 30.0f;
+    public float speed = 40.0f;
 
     private Rigidbody2D rigidbody2d;
 
@@ -13,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        // check for input (w or s) keys .. w = 1 and s = -1
         float vert = Input.GetAxisRaw("Vertical");
         rigidbody2d.velocity = new Vector2(0, vert * speed);
     }

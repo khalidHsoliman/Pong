@@ -3,8 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// This is the gamemanager used to control win/lose states and manage UI and keep track with the score
+/// </summary>
 public class GameManager : MonoBehaviour {
 
+    // implementing Singleton pattern 
+    // making only one static instance for the gamemanager
     public static GameManager gm = null;
 
     public GameObject Ball;
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
+        // Singleton
         if (gm == null)
             gm = this;
         else
@@ -50,6 +57,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
+        // Speedup pickup timer
         if (toggleColor)
         {
             timeTillShut += Time.deltaTime;
@@ -63,6 +71,7 @@ public class GameManager : MonoBehaviour {
             }
         }
 
+        // Win/Lose states
         if(gameIsOver)
         {
             if (int.Parse(PlayerScore.text) > int.Parse(AIScore.text))
@@ -73,6 +82,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// increases the score when scoring a goal
+    /// </summary>
+    /// <param name="obj"></param>
     public void IncreaseScore(GameObject obj)
     {
         if (obj.CompareTag("LeftGoal"))
@@ -91,13 +104,20 @@ public class GameManager : MonoBehaviour {
             gameIsOver = true; 
     }
 
+    /// <summary>
+    /// Restart the scene ... refernced in the restart button
+    /// </summary>
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
 
+    /// <summary>
+    /// Called when the ball collides with the speedup pickup
+    /// </summary>
     public void Speedup()
     {
+        // this check is to handle the situition when two speedup pickups picked together
         if (toggleColor)
         {
             timeTillShut = 0.0f;
@@ -108,31 +128,40 @@ public class GameManager : MonoBehaviour {
         else
             toggleColor = true;
 
+        // saves the old speed 
         oldBallSpeed   = Ball.GetComponent<BallBehaviour>().speed;
         oldPlayerSpeed = Player.GetComponent<PlayerController>().speed;
         oldAISpeed     = AI.GetComponent<AIPlayer>().speed;
 
+        // increase the speed and change the ball color 
         Ball.GetComponent<BallBehaviour>().speed += 20;
         Ball.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0); 
         Ball.GetComponent<TrailRenderer>().startColor = new Color(1, 0, 0);
-        
         Player.GetComponent<PlayerController>().speed += 20;
         AI.GetComponent<AIPlayer>().speed += 20;
 
+        // speedup the bg music
         audioSource.pitch += 0.2f;
         
+        // this coroutine is used to toggle the borders color 
         StartCoroutine("Speedy"); 
     }
 
+    /// <summary>
+    /// Called when the ball collides with the Magnet pickup
+    /// </summary>
     public void ChangeDir()
     {
+        // checks if the ball in the upper or lower half of the screen 
         if (Ball.transform.position.y > 0)
             Ball.GetComponent<Rigidbody2D>().velocity += new Vector2(0, addForce); 
         else
             Ball.GetComponent<Rigidbody2D>().velocity += new Vector2(0, -addForce);
     }
 
-
+    /// <summary>
+    /// Reset Objects states after the pickup time is finished 
+    /// </summary>
     private void ResetObj()
     {
         ResetSpeed();
@@ -143,6 +172,9 @@ public class GameManager : MonoBehaviour {
         audioSource.pitch -= 0.2f;
     }
 
+    /// <summary>
+    /// Reset speed using old values
+    /// </summary>
     private void ResetSpeed()
     {
         Ball.GetComponent<BallBehaviour>().speed      = oldBallSpeed;
