@@ -1194,8 +1194,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ball: {fileID: 1076350139}
-  speed: 30
-  lerpTweak: 2
+  speed: 50
+  lerpTweak: 3
 --- !u!1001 &1583203964
 Prefab:
   m_ObjectHideFlags: 0
@@ -1234,6 +1234,11 @@ Prefab:
     - target: {fileID: 4785632370233394, guid: bb8de9fe37704cd4a88555c5b9fe94f2, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114682163995548266, guid: bb8de9fe37704cd4a88555c5b9fe94f2,
+        type: 2}
+      propertyPath: speed
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb8de9fe37704cd4a88555c5b9fe94f2, type: 2}
@@ -1541,7 +1546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickups:
   - {fileID: 1660320618602322, guid: bd5ae5a46e9fbfb458fb5f6631da23b8, type: 2}
-  - {fileID: 1660320618602322, guid: bd5ae5a46e9fbfb458fb5f6631da23b8, type: 2}
+  - {fileID: 1620624361146924, guid: 894ab3faa0ea3974192e911e6a97361c, type: 2}
   minX: -20
   maxX: 20
   minY: -10
@@ -1602,7 +1607,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f0cf252611aec6d438bcd717e1e08693, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0

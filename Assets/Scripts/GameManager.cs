@@ -31,11 +31,11 @@ public class GameManager : MonoBehaviour {
     private bool toggleColor = false;
 
     private float timeToToggle = 5.0f;
-    private float timeTillShut = 0.0f; 
+    private float timeTillShut = 0.0f;
+    private float addForce = 20.0f; 
 
     private void Start()
     {
-
         if (gm == null)
             gm = this;
         else
@@ -110,7 +110,10 @@ public class GameManager : MonoBehaviour {
 
     public void ChangeDir()
     {
-
+        if (Ball.transform.position.y > 0)
+            Ball.GetComponent<Rigidbody2D>().velocity += new Vector2(0, addForce); 
+        else
+            Ball.GetComponent<Rigidbody2D>().velocity += new Vector2(0, -addForce);
     }
 
 
