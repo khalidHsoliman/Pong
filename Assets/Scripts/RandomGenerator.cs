@@ -38,15 +38,15 @@ public class RandomGenerator : MonoBehaviour {
             StartCoroutine("DestroyObject", pickup); 
         }
 
-        Debug.Log(SpawnInterval);
+       // Debug.Log(SpawnInterval);
 	}
 
     IEnumerator DestroyObject(GameObject pickup)
     {
         while(pickup.GetComponent<SpriteRenderer>().color.a > 0)
         {
+            yield return new WaitForSeconds(0.018f);
             pickup.GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, 1);
-            yield return new WaitForSeconds(0.02f);
         }
 
         Destroy(pickup);

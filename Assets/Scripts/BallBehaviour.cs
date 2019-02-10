@@ -17,8 +17,11 @@ public class BallBehaviour : MonoBehaviour {
 
     private void Update()
     {
-        if (GameManager.gm.gameIsOver)
-            rigidbody2d.velocity = Vector2.zero;
+        if (GameManager.gm)
+        {
+            if (GameManager.gm.gameIsOver)
+                rigidbody2d.velocity = Vector2.zero;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -76,7 +79,9 @@ public class BallBehaviour : MonoBehaviour {
         else if (collision.CompareTag("Magnet"))
             GameManager.gm.ChangeDir();
 
-        Destroy(collision.gameObject); 
+        collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        collision.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
     }
 
     IEnumerator Wait()

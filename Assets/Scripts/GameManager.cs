@@ -32,7 +32,11 @@ public class GameManager : MonoBehaviour {
 
     private float timeToToggle = 5.0f;
     private float timeTillShut = 0.0f;
-    private float addForce = 20.0f; 
+    private float addForce = 20.0f;
+    private float oldBallSpeed   = 0.0f;
+    private float oldPlayerSpeed = 0.0f;
+    private float oldAISpeed     = 0.0f;
+
 
     private void Start()
     {
@@ -94,7 +98,19 @@ public class GameManager : MonoBehaviour {
 
     public void Speedup()
     {
-        toggleColor = true;
+        if (toggleColor)
+        {
+            timeTillShut = 0.0f;
+
+            ResetSpeed();
+        }
+
+        else
+            toggleColor = true;
+
+        oldBallSpeed   = Ball.GetComponent<BallBehaviour>().speed;
+        oldPlayerSpeed = Player.GetComponent<PlayerController>().speed;
+        oldAISpeed     = AI.GetComponent<AIPlayer>().speed;
 
         Ball.GetComponent<BallBehaviour>().speed += 20;
         Ball.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0); 
@@ -119,7 +135,8 @@ public class GameManager : MonoBehaviour {
 
     private void ResetObj()
     {
-        Ball.GetComponent<BallBehaviour>().speed -= 20;
+        ResetSpeed();
+
         Ball.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
         Ball.GetComponent<TrailRenderer>().startColor = new Color(1, 1, 1);
 
@@ -127,6 +144,13 @@ public class GameManager : MonoBehaviour {
         AI.GetComponent<AIPlayer>().speed -= 20;
 
         audioSource.pitch -= 0.2f;
+    }
+
+    private void ResetSpeed()
+    {
+        Ball.GetComponent<BallBehaviour>().speed      = oldBallSpeed;
+        Player.GetComponent<PlayerController>().speed = oldPlayerSpeed;
+        AI.GetComponent<AIPlayer>().speed             = oldAISpeed;
     }
 
 
